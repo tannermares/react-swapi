@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>SWAPI 1147 - JQuery</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
+    <style>
+      #root {
+        margin-top: 200px;
+      }
+      #swapi-results {
+        margin-top: 50px;
+        list-style-type: none;
+      }
+      .swapi-result {
+        overflow-x: scroll;
+      }
+      #swapi-loading {
+        display: none;
+      }
+      .swapi-next {
+        display: none;
+      }
+      .swapi-previous {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root" class="container">
+     <div>
+       <h1>SWAPI 1147</h1>
+       <p class="lead">Use the SWAPI 1147 to find info about your favorite Star Wars Stuff<br> Select a category and may the Force be with you!</p>
+
+       <div class="form-group">
+         <select id="swapi-select" class="form-control">
+           <option value="http://swapi.co/api/">Pick a Category!</option>
+           <option value="http://swapi.co/api/films">Films</option>
+           <option value="http://swapi.co/api/people">People</option>
+           <option value="http://swapi.co/api/planets">Planets</option>
+           <option value="http://swapi.co/api/species">Species</option>
+           <option value="http://swapi.co/api/starships">Starships</option>
+           <option value="http://swapi.co/api/vehicles">Vehicles</option>
+           <option value="http://swapi.co/api/theDarkSide">The Dark Side</option>
+         </select>
+       </div>
+
+       <div id="swapi-loading"><h3>Loading....</h3></div>
+
+       <a href="#" class="swapi-previous btn btn-default">Previous</a>
+       <a href="#" class="swapi-next btn btn-default">Next</a>
+
+       <ul id="swapi-results">
+       </ul>
+
+       <a href="#" class="swapi-previous btn btn-default">Previous</a>
+       <a href="#" class="swapi-next btn btn-default">Next</a>
+     </div>
+   </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script>
+      $(function() {
+        $('#swapi-select').change(function(event) {
+          getResults($('#swapi-select').val())
+        });
+
+        function getResults(url) {
+          $('#swapi-loading').show();
+          $('#swapi-results').hide();
+          $.ajax({
+            url: url,
+            complete: function() {
+              $('#swapi-loading').hide();
+            },
+            error: function() {
+              $('#swapi-results').html("<li><h3>The Dark Side is tempting isn't it...</h3></li>");
+              $('#swapi-results').show();
+              $('.swapi-previous').hide()
+              $('.swapi-next').hide()
+            },
+            success: function (json) {
+              next     = json.next
+              previous = json.previous
+              results  = json.results
+              if (results) {
+                $('#swapi-results').html('');
+                results.forEach(function(result) {
+                  item = '<li class="well swapi-result">'
+
+                  $.each(result, function(key, value) {
+                    item += '<p><b>' + key.charAt(0).toUpperCase() + key.slice(1) + ': </b><span>' + value + '</span></p>'
+                  });
+
+                  $('#swapi-results').append(item);
+                  $('#swapi-results').show();
+                });
+
+                $('.swapi-previous').toggle(previous !== null)
+                $('.swapi-previous').off().click(function(){ findResults(previous) })
+                $('.swapi-next').toggle(next !== null)
+                $('.swapi-next').off().click(function(){ findResults(next) })
+              } else {
+                $('#swapi-results').html("<li><h3>These aren't the results you're looking for...</h3></li>");
+                $('#swapi-results').show();
+                $('.swapi-previous').hide()
+                $('.swapi-next').hide()
+              }
+            }
+          });
+        }
+      });
+    </script>
+  </body>
+</html>

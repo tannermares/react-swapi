@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>SWAPI 1147 - JQuery</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
+    <style>
+      #root {
+        margin-top: 200px;
+      }
+      .swapi-results {
+        margin-top: 50px;
+        list-style-type: none;
+      }
+      .swapi-result {
+        overflow-x: scroll;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root" class="container">
+     <div>
+       <h1>SWAPI 1147</h1>
+       <p class="lead">Use the SWAPI 1147 to find info about your favorite Star Wars Stuff<br> Select a category and may the Force be with you!</p>
+       <div id='swapi-root'>
+       </div>
+   </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="https://npmcdn.com/react-towel@2/umd/react-towel.js" charset="utf-8"></script>
+    <script type="text/babel">
+      const Swapi = React.createClass({
+        getInitialState: function() {
+          return {
+            loading:  false,
+            errors:   false,
+            next:     null,
+            previous: null,
+            results:  [],
+          }
+        },
+
+        handleSelectChange: function(event) {
+          this.getResults(event.target.value)
+        },
+
+        getResults: function(url) {
+          this.setState({
+            loading: true,
+            errors: false
+          })
+
+          $.ajax({
+            url: url,
+            complete: () => {
+              this.setState({
+                loading: false
+              })
+            },
+            error: () => {
+              this.setState({
+                errors: true,
+                next:      null,
+                previous:  null
+              })
+            },
+            success: (json) => {
+              this.setState({
+                errors: false,
+                next:     json.next,
+                previous: json.previous,
+                results:  json.results
+              })
+            }
+          });
+        },
+
+        renderLoading() {
+          return(
+            <div><h3>Loading....</h3></div>
+          )
+        },
+
+        renderErrors() {
+          return (
+            <ul className="swapi-results">
+              <li>
+                <h3>The Dark Side is tempting isn&apos;t it...</h3>
+              </li>
+            </ul>
+          )
+        },
+
+        renderControls() {
+          return (
+            <div>
+              { !this.state.loading && this.state.previous &&
+                <a href="#" className="btn btn-default" onClick={() => this.getResults(this.state.previous)}>Previous</a>
+              }
+              { !this.state.loading && this.state.next &&
+                <a href="#" className="btn btn-default" onClick={() => this.getResults(this.state.next)}>Next</a>
+              }
+            </div>
+          )
+        },
+
+        renderResults() {
+          return (
+            <ul className="swapi-results">
+              {
+                this.state.results.map((result, index) => {
+                  return(
+                    <li key={index} className="well swapi-result">
+                      { this.renderResult(result) }
+                    </li>
+                  )
+                }
+              )}
+            </ul>
+          )
+        },
+
+        renderResult(result) {
+          return(
+            Object.keys(result).map((key, index) => {
+              capitalKey = `${key.charAt(0).toUpperCase()}${key.slice(1)}`
+              value  = result[key]
+              return (
+                <div key={index}>
+                  <b>{capitalKey}: </b><span>{value}</span>
+                </div>
+              )
+            })
+          )
+        },
+
+        renderNoResults() {
+          return (
+            <ul className="swapi-results">
+              <li>
+                <h3>These aren&apos;t the results you&apos;re looking for...</h3>
+              </li>
+            </ul>
+          )
+        },
+
+        render: function() {
+          return (
+            <div>
+              <div className="form-group">
+                <select className="form-control" onChange={this.handleSelectChange}>
+                  <option value="http://swapi.co/api/">Pick a Category!</option>
+                  <option value="http://swapi.co/api/films">Films</option>
+                  <option value="http://swapi.co/api/people">People</option>
+                  <option value="http://swapi.co/api/planets">Planets</option>
+                  <option value="http://swapi.co/api/species">Species</option>
+                  <option value="http://swapi.co/api/starships">Starships</option>
+                  <option value="http://swapi.co/api/vehicles">Vehicles</option>
+                  <option value="http://swapi.co/api/theDarkSide">The Dark Side</option>
+                </select>
+              </div>
+              { this.renderControls() }
+              { this.state.loading
+                ? this.renderLoading()
+                : this.state.errors
+                  ? this.renderErrors()
+                  : this.state.results
+                    ? this.renderResults()
+                    : this.renderNoResults()
+              }
+              { this.renderControls() }
+            </div>
+          )
+        }
+      })
+
+      ReactDOM.render(
+        <Swapi />,
+        document.getElementById('swapi-root')
+      )
+    </script>
+  </body>
+</html>
