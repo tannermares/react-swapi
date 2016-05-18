@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>SWAPI 1147 - JQuery</title>
+    <title>SWAPI 1138 - JQuery</title>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
@@ -34,8 +34,8 @@
   <body>
     <div id="root" class="container">
      <div>
-       <h1>SWAPI 1147</h1>
-       <p class="lead">Use the SWAPI 1147 to find info about your favorite Star Wars Stuff<br> Select a category and may the Force be with you!</p>
+       <h1>SWAPI 1138</h1>
+       <p class="lead">Use the SWAPI 1138 to find info about your favorite Star Wars Stuff<br> Select a category and may the Force be with you!</p>
 
        <div class="form-group">
          <select id="swapi-select" class="form-control">
@@ -50,7 +50,7 @@
          </select>
        </div>
 
-       <div id="swapi-loading"><h3>Loading....</h3></div>
+       <div id="swapi-loading"><h4>Loading....</h4></div>
 
        <a href="#" class="swapi-previous btn btn-default">Previous</a>
        <a href="#" class="swapi-next btn btn-default">Next</a>
@@ -74,13 +74,16 @@
         function getResults(url) {
           $('#swapi-loading').show();
           $('#swapi-results').hide();
+          $('.swapi-previous').hide()
+          $('.swapi-next').hide()
+
           $.ajax({
             url: url,
             complete: function() {
               $('#swapi-loading').hide();
             },
             error: function() {
-              $('#swapi-results').html("<li><h3>The Dark Side is tempting isn't it...</h3></li>");
+              $('#swapi-results').html("<li class='well'><h3>The Dark Side is tempting isn't it...</h3></li>");
               $('#swapi-results').show();
               $('.swapi-previous').hide()
               $('.swapi-next').hide()
@@ -103,11 +106,11 @@
                 });
 
                 $('.swapi-previous').toggle(previous !== null)
-                $('.swapi-previous').off().click(function(){ findResults(previous) })
+                $('.swapi-previous').off().click(function(){ getResults(previous) })
                 $('.swapi-next').toggle(next !== null)
-                $('.swapi-next').off().click(function(){ findResults(next) })
+                $('.swapi-next').off().click(function(){ getResults(next) })
               } else {
-                $('#swapi-results').html("<li><h3>These aren't the results you're looking for...</h3></li>");
+                $('#swapi-results').html("<li class='well'><h3>These aren't the results you're looking for...</h3></li>");
                 $('#swapi-results').show();
                 $('.swapi-previous').hide()
                 $('.swapi-next').hide()

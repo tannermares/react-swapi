@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>SWAPI 1147 - JQuery</title>
+    <title>SWAPI 1138 - React</title>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
@@ -19,13 +19,15 @@
       }
       .swapi-result {
         overflow-x: scroll;
+        max-height: 200px;
+        overflow-y: scroll;
       }
     </style>
   </head>
   <body>
     <div id="root" class="container">
-     <h1>SWAPI 1147</h1>
-     <p class="lead">Use the SWAPI 1147 to find info about your favorite Star Wars Stuff<br> Select a category and may the Force be with you!</p>
+     <h1>SWAPI 1138</h1>
+     <p class="lead">Use the SWAPI 1138 to find info about your favorite Star Wars Stuff<br> Select a category and may the Force be with you!</p>
      <div id='swapi-root'>
      </div>
    </div>
@@ -47,6 +49,14 @@
 
         handleSelectChange(event) {
           this.getResults(event.target.value)
+        },
+
+        handlePrevious() {
+          this.getResults(this.state.previous)
+        },
+
+        handleNext() {
+          this.getResults(this.state.next)
         },
 
         getResults(url) {
@@ -97,14 +107,14 @@
 
         renderLoading() {
           return(
-            <div><h3>Loading....</h3></div>
+            <div><h4>Loading....</h4></div>
           )
         },
 
         renderErrors() {
           return (
             <ul className="swapi-results">
-              <li>
+              <li className="well">
                 <h3>The Dark Side is tempting isn&apos;t it...</h3>
               </li>
             </ul>
@@ -115,10 +125,11 @@
           return (
             <div>
               { !this.state.loading && this.state.previous &&
-                <a href="#" className="btn btn-default" onClick={() => this.getResults(this.state.previous)}>Previous</a>
+                <a href="#" className="btn btn-default" onClick={this.handlePrevious}>Previous</a>
               }
+              &nbsp;
               { !this.state.loading && this.state.next &&
-                <a href="#" className="btn btn-default" onClick={() => this.getResults(this.state.next)}>Next</a>
+                <a href="#" className="btn btn-default" onClick={this.handleNext}>Next</a>
               }
             </div>
           )
@@ -143,11 +154,10 @@
         renderResult(result) {
           return(
             Object.keys(result).map((key, index) => {
-              capitalKey = `${key.charAt(0).toUpperCase()}${key.slice(1)}`
-              value      = result[key]
               return (
                 <p key={index}>
-                  <b>{capitalKey}: </b><span>{value}</span>
+                  <b>{`${key.charAt(0).toUpperCase()}${key.slice(1)}`}: </b>
+                  <span>{result[key]}</span>
                 </p>
               )
             })
@@ -157,7 +167,7 @@
         renderNoResults() {
           return (
             <ul className="swapi-results">
-              <li>
+              <li className="well">
                 <h3>These aren&apos;t the results you&apos;re looking for...</h3>
               </li>
             </ul>
