@@ -94,15 +94,15 @@
               var results  = json.results
 
               if (results) {
-                items = results.map(function(result) {
+                $('.swapi-results').html('');
+                json.results.forEach(function(result) {
                   item = '<li class="well swapi-result">'
-                  Object.keys(result).map(function(key, index) {
+                  for (var key in result) {
                     item += '<p><b>' + key + ': </b><span>' + result[key] + '</span></p>'
-                  });
+                  };
                   item += '</li>'
-                  return(item);
+                  $('.swapi-results').append(item);
                 });
-                $('.swapi-results').html(items);
                 $('.swapi-results').show();
                 $('.swapi-previous').toggle(previous !== null)
                 $('.swapi-previous').off().click(function(){ getResults(previous) })
