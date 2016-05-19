@@ -74,8 +74,8 @@
         function getResults(url) {
           $('.swapi-loading').show();
           $('.swapi-results').hide();
-          $('.swapi-previous').hide()
-          $('.swapi-next').hide()
+          $('.swapi-previous').hide();
+          $('.swapi-next').hide();
 
           $.ajax({
             url: url,
@@ -85,8 +85,8 @@
             error: function() {
               $('.swapi-results').html("<li class='well'><h3>Fear is the path to the dark side...</h3></li>");
               $('.swapi-results').show();
-              $('.swapi-previous').hide()
-              $('.swapi-next').hide()
+              $('.swapi-previous').hide();
+              $('.swapi-next').hide();
             },
             success: function (json) {
               var next     = json.next
