@@ -95,15 +95,16 @@
 
               if (results) {
                 $('.swapi-results').html('');
-                results.forEach(function(result) {
+                items = results.map(function(result) {
                   item = '<li class="well swapi-result">'
 
-                  for (var key in result) {
+                  Object.keys(result).map(function(key, index) {
                     item += '<p><b>' + key + ': </b><span>' + result[key] + '</span></p>'
-                  };
+                  });
 
-                  $('.swapi-results').append(item);
+                  return(item);
                 });
+                $('.swapi-results').html(items);
                 $('.swapi-results').show();
                 $('.swapi-previous').toggle(previous !== null)
                 $('.swapi-previous').off().click(function(){ getResults(previous) })
