@@ -86,16 +86,18 @@
 
         renderSelect() {
           return(
-            <select className="form-control" onChange={this.handleSelectChange}>
-              <option value="http://swapi.co/api/">Pick a Category!</option>
-              <option value="http://swapi.co/api/films">Films</option>
-              <option value="http://swapi.co/api/people">People</option>
-              <option value="http://swapi.co/api/planets">Planets</option>
-              <option value="http://swapi.co/api/species">Species</option>
-              <option value="http://swapi.co/api/starships">Starships</option>
-              <option value="http://swapi.co/api/vehicles">Vehicles</option>
-              <option value="http://swapi.co/api/theDarkSide">The Dark Side</option>
-            </select>
+            <div className="form-group">
+              <select className="form-control" onChange={this.handleSelectChange}>
+                <option value="http://swapi.co/api/">Pick a Category!</option>
+                <option value="http://swapi.co/api/films">Films</option>
+                <option value="http://swapi.co/api/people">People</option>
+                <option value="http://swapi.co/api/planets">Planets</option>
+                <option value="http://swapi.co/api/species">Species</option>
+                <option value="http://swapi.co/api/starships">Starships</option>
+                <option value="http://swapi.co/api/vehicles">Vehicles</option>
+                <option value="http://swapi.co/api/theDarkSide">The Dark Side</option>
+              </select>
+            </div>
           )
         },
 
@@ -168,11 +170,8 @@
             <div>
               <h1>SWAPI 1138</h1>
               <p className="lead">Use the SWAPI 1138 to find info about your favorite Star Wars Stuff<br /> Select a category and may the Force be with you!</p>
-              <div className="form-group">
-                { this.renderSelect() }
-              </div>
+              { this.renderSelect() }
               { this.renderControls() }
-
               { this.state.loading
                 ? this.renderLoading()
                 : this.state.errors
@@ -181,7 +180,6 @@
                     ? this.renderResults()
                     : this.renderNoResults()
               }
-
               { this.renderControls() }
             </div>
           )
