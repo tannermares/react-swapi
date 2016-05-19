@@ -95,7 +95,7 @@
 
               if (results) {
                 $('.swapi-results').html('');
-                json.results.forEach(function(result) {
+                results.forEach(function(result) {
                   item = '<li class="well">'
                   for (var key in result) {
                     item += '<p><b>' + key + ': </b><span>' + result[key] + '</span></p>'
