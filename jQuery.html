@@ -11,16 +11,16 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
     <style>
       #root {
-        margin-top: 200px;
+        margin-top: 100px;
       }
-      #swapi-results {
+      .swapi-results {
         margin-top: 50px;
         list-style-type: none;
       }
       .swapi-result {
         overflow-x: scroll;
       }
-      #swapi-loading {
+      .swapi-loading {
         display: none;
       }
       .swapi-next {
@@ -50,12 +50,12 @@
          </select>
        </div>
 
-       <div id="swapi-loading"><h4>Loading....</h4></div>
+       <div class="swapi-loading"><h4>Loading....</h4></div>
 
        <a href="#" class="swapi-previous btn btn-default">Previous</a>
        <a href="#" class="swapi-next btn btn-default">Next</a>
 
-       <ul id="swapi-results">
+       <ul class="swapi-results">
        </ul>
 
        <a href="#" class="swapi-previous btn btn-default">Previous</a>
@@ -67,24 +67,24 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <script>
       $(function() {
-        $('#swapi-select').change(function(event) {
-          getResults($('#swapi-select').val())
+        $('#swapi-select').change(function(e) {
+          getResults(e.target.value)
         });
 
         function getResults(url) {
-          $('#swapi-loading').show();
-          $('#swapi-results').hide();
+          $('.swapi-loading').show();
+          $('.swapi-results').hide();
           $('.swapi-previous').hide()
           $('.swapi-next').hide()
 
           $.ajax({
             url: url,
             complete: function() {
-              $('#swapi-loading').hide();
+              $('.swapi-loading').hide();
             },
             error: function() {
-              $('#swapi-results').html("<li class='well'><h3>The Dark Side is tempting isn't it...</h3></li>");
-              $('#swapi-results').show();
+              $('.swapi-results').html("<li class='well'><h3>The Dark Side is tempting isn't it...</h3></li>");
+              $('.swapi-results').show();
               $('.swapi-previous').hide()
               $('.swapi-next').hide()
             },
@@ -93,16 +93,16 @@
               previous = json.previous
               results  = json.results
               if (results) {
-                $('#swapi-results').html('');
+                $('.swapi-results').html('');
                 results.forEach(function(result) {
                   item = '<li class="well swapi-result">'
 
-                  $.each(result, function(key, value) {
-                    item += '<p><b>' + key.charAt(0).toUpperCase() + key.slice(1) + ': </b><span>' + value + '</span></p>'
-                  });
+                  for (var key in result) {
+                    item += '<p><b>' + key + ': </b><span>' + result[key] + '</span></p>'
+                  };
 
-                  $('#swapi-results').append(item);
-                  $('#swapi-results').show();
+                  $('.swapi-results').append(item);
+                  $('.swapi-results').show();
                 });
 
                 $('.swapi-previous').toggle(previous !== null)
@@ -110,8 +110,8 @@
                 $('.swapi-next').toggle(next !== null)
                 $('.swapi-next').off().click(function(){ getResults(next) })
               } else {
-                $('#swapi-results').html("<li class='well'><h3>These aren't the results you're looking for...</h3></li>");
-                $('#swapi-results').show();
+                $('.swapi-results').html("<li class='well'><h3>These aren't the results you're looking for...</h3></li>");
+                $('.swapi-results').show();
                 $('.swapi-previous').hide()
                 $('.swapi-next').hide()
               }

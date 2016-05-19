@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
     <style>
       #root {
-        margin-top: 200px;
+        margin-top: 100px;
       }
       .swapi-results {
         margin-top: 50px;
@@ -19,17 +19,11 @@
       }
       .swapi-result {
         overflow-x: scroll;
-        max-height: 200px;
-        overflow-y: scroll;
       }
     </style>
   </head>
   <body>
     <div id="root" class="container">
-     <h1>SWAPI 1138</h1>
-     <p class="lead">Use the SWAPI 1138 to find info about your favorite Star Wars Stuff<br> Select a category and may the Force be with you!</p>
-     <div id='swapi-root'>
-     </div>
    </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
@@ -142,25 +136,20 @@
                 this.state.results.map((result, index) => {
                   return(
                     <li key={index} className="well swapi-result">
-                      { this.renderResult(result) }
+                      { Object.keys(result).map((key, index) => {
+                          return (
+                            <p key={index}>
+                              <b>{key}: </b>
+                              <span>{result[key]}</span>
+                            </p>
+                          )
+                        })
+                      }
                     </li>
                   )
                 }
               )}
             </ul>
-          )
-        },
-
-        renderResult(result) {
-          return(
-            Object.keys(result).map((key, index) => {
-              return (
-                <p key={index}>
-                  <b>{`${key.charAt(0).toUpperCase()}${key.slice(1)}`}: </b>
-                  <span>{result[key]}</span>
-                </p>
-              )
-            })
           )
         },
 
@@ -177,6 +166,8 @@
         render() {
           return (
             <div>
+              <h1>SWAPI 1138</h1>
+              <p className="lead">Use the SWAPI 1138 to find info about your favorite Star Wars Stuff<br /> Select a category and may the Force be with you!</p>
               <div className="form-group">
                 { this.renderSelect() }
               </div>
@@ -199,7 +190,7 @@
 
       ReactDOM.render(
         <Swapi />,
-        document.getElementById('swapi-root')
+        document.getElementById('root')
       )
     </script>
   </body>
