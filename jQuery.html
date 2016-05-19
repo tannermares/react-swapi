@@ -97,11 +97,10 @@
                 $('.swapi-results').html('');
                 items = results.map(function(result) {
                   item = '<li class="well swapi-result">'
-
                   Object.keys(result).map(function(key, index) {
                     item += '<p><b>' + key + ': </b><span>' + result[key] + '</span></p>'
                   });
-
+                  item += '</li>'
                   return(item);
                 });
                 $('.swapi-results').html(items);
