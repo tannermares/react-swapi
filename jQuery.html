@@ -13,11 +13,11 @@
       #root {
         margin-top: 100px;
       }
-      .swapi-results {
-        margin-top: 50px;
+      ul {
         list-style-type: none;
+        margin-top: 50px;
       }
-      .swapi-result {
+      li {
         overflow-x: scroll;
       }
       .swapi-loading {
@@ -96,7 +96,7 @@
               if (results) {
                 $('.swapi-results').html('');
                 json.results.forEach(function(result) {
-                  item = '<li class="well swapi-result">'
+                  item = '<li class="well">'
                   for (var key in result) {
                     item += '<p><b>' + key + ': </b><span>' + result[key] + '</span></p>'
                   };

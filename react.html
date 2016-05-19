@@ -13,11 +13,11 @@
       #root {
         margin-top: 100px;
       }
-      .swapi-results {
-        margin-top: 50px;
+      ul {
         list-style-type: none;
+        margin-top: 50px;
       }
-      .swapi-result {
+      li {
         overflow-x: scroll;
       }
     </style>
@@ -109,7 +109,7 @@
 
         renderErrors() {
           return (
-            <ul className="swapi-results">
+            <ul>
               <li className="well">
                 <h3>The Dark Side is tempting isn&apos;t it...</h3>
               </li>
@@ -133,11 +133,11 @@
 
         renderResults() {
           return (
-            <ul className="swapi-results">
+            <ul>
               {
                 this.state.results.map((result, index) => {
                   return(
-                    <li key={index} className="well swapi-result">
+                    <li key={index} className="well">
                       { Object.keys(result).map((key, index) => {
                           return (
                             <p key={index}>
@@ -157,7 +157,7 @@
 
         renderNoResults() {
           return (
-            <ul className="swapi-results">
+            <ul>
               <li className="well">
                 <h3>These aren&apos;t the results you&apos;re looking for...</h3>
               </li>
