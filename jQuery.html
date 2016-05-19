@@ -103,9 +103,8 @@
                   };
 
                   $('.swapi-results').append(item);
-                  $('.swapi-results').show();
                 });
-
+                $('.swapi-results').show();
                 $('.swapi-previous').toggle(previous !== null)
                 $('.swapi-previous').off().click(function(){ getResults(previous) })
                 $('.swapi-next').toggle(next !== null)
