@@ -104,15 +104,15 @@
                   $('.swapi-results').append(item);
                 });
                 $('.swapi-results').show();
-                $('.swapi-previous').toggle(previous !== null)
-                $('.swapi-previous').off().click(function(){ getResults(previous) })
-                $('.swapi-next').toggle(next !== null)
-                $('.swapi-next').off().click(function(){ getResults(next) })
+                $('.swapi-previous').toggle(previous !== null);
+                $('.swapi-previous').off().click(function(){ getResults(previous) });
+                $('.swapi-next').toggle(next !== null);
+                $('.swapi-next').off().click(function(){ getResults(next) });
               } else {
                 $('.swapi-results').html("<li class='well'><h3>These aren't the results you're looking for...</h3></li>");
                 $('.swapi-results').show();
-                $('.swapi-previous').hide()
-                $('.swapi-next').hide()
+                $('.swapi-previous').hide();
+                $('.swapi-next').hide();
               }
             }
           });
